@@ -1,0 +1,172 @@
+
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Orzeł nem? orzeł cwel</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 20px;
+      background-color: #000;
+      color: white;
+      overflow-x: hidden;
+    }
+
+    h1 {
+      font-size: 6vw;
+      margin-bottom: 5vh;
+    }
+
+    .button {
+      font-size: 4.5vw;
+      padding: 12px 20px;
+      margin: 2vh 1vw;
+      cursor: pointer;
+      border: none;
+      border-radius: 6px;
+      background-color: #444;
+      color: white;
+      transition: background-color 0.3s ease;
+    }
+
+    .button:hover {
+      background-color: #666;
+    }
+
+    #result {
+      margin-top: 5vh;
+      font-size: 6vw;
+      font-weight: bold;
+    }
+
+    .copyright {
+      position: fixed;
+      bottom: 10px;
+      right: 10px;
+      font-size: 3vw;
+      color: #888;
+      pointer-events: none;
+    }
+
+    .falling {
+      position: absolute;
+      top: 0;
+      font-size: 8vw;
+      animation: fall 3s linear forwards;
+      pointer-events: none;
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translateY(0);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(100vh);
+        opacity: 0;
+      }
+    }
+
+    @media (min-width: 600px) {
+      h1 { font-size: 28px; }
+      .button { font-size: 18px; }
+      #result { font-size: 36px; }
+      .falling { font-size: 48px; }
+      .copyright { font-size: 14px; }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Co robi orzeł w kiblu jak Michał prosi go o wyjście?</h1>
+
+  <button class="button" onclick="showResult('good')">
+    wali konia i nie odpowiada
+  </button>
+
+  <button class="button" onclick="showResult('bad')">
+    mówi że sra i nie chce wyjść
+  </button>
+
+  <div id="result"></div>
+
+  <div class="copyright">&copy; 2025 Robert Nem / Wszelkie prawa zastrzeżone.</div>
+
+  <audio id="poopSound" src="https://www.myinstants.com/media/sounds/fart-with-reverb.mp3"></audio>
+
+  <script>
+    const eagleImages = [
+      "https://upload.wikimedia.org/wikipedia/commons/1/19/Bald_Eagle_Portrait.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/3/36/2010-kabini-bald-eagle.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/2/23/Bald_Eagle_in_Yellowstone.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/4/4c/Bald_Eagle_Flying_Overhead.jpg"
+    ];
+
+    function showResult(answer) {
+      const result = document.getElementById('result');
+      if (answer === 'good') {
+        result.textContent = 'Dobra odpowiedź nem';
+        result.style.color = 'lime';
+        spawnNemAndDiamonds();
+      } else {
+        result.textContent = 'Zła odpowiedź, tracisz 0.1 nem';
+        result.style.color = 'red';
+        showEaglePopup();
+        document.getElementById("poopSound").play();
+      }
+    }
+
+    function spawnNemAndDiamonds() {
+      const totalItems = 20;
+
+      for (let i = 0; i < totalItems; i++) {
+        createFallingElement('nem');
+        createFallingElement('💎');
+      }
+    }
+
+    function createFallingElement(content) {
+      const el = document.createElement('div');
+      el.classList.add('falling');
+      el.textContent = content;
+      el.style.left = Math.random() * 100 + 'vw';
+      el.style.animationDelay = Math.random() * 2 + 's';
+      el.style.color = content === 'nem' ? 'white' : '#00c0ff';
+      document.body.appendChild(el);
+
+      setTimeout(() => {
+        el.remove();
+      }, 4000);
+    }
+
+    function showEaglePopup() {
+      const randomImg = eagleImages[Math.floor(Math.random() * eagleImages.length)];
+      const win = window.open("", "_blank", "width=600,height=500");
+      win.document.write(\`
+        <html>
+          <head>
+            <title>Orzeł sra</title>
+            <style>
+              body { margin: 0; background: black; display: flex; align-items: center; justify-content: center; height: 100vh; }
+              img { max-width: 100%; max-height: 100%; border: 10px solid white; }
+            </style>
+          </head>
+          <body>
+            <img src="\${randomImg}" alt="Orzeł sra">
+          </body>
+        </html>
+      \`);
+    }
+  </script>
+
+</body>
+</html>
